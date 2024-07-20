@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Image</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .text-to-image-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .text-input {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .text-input textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .image-display {
+            flex: 1;
+        }
+
+        .image-display img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none; /* Başlangıçta gizle */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MyApp</a>
+            <ul class="nav-links">
+                <li><a href="chatbot.html">Chatbot</a></li>
+                <li><a href="text-to-image.html">Text-to-Image</a></li>
+                <li><a href="#">Web Scraping</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container">
+        <h1>Text-to-Image</h1>
+        <div class="text-to-image-container">
+            <div class="text-input">
+                <textarea id="text-input" placeholder="Enter text here..."></textarea>
+                <button id="generate-button">Generate Image</button>
+            </div>
+            <div class="image-display">
+                <img id="generated-image" src="" alt="Generated Image" />
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('generate-button').addEventListener('click', async function() {
+            const textInput = document.getElementById('text-input').value;
+            const imageDisplay = document.getElementById('generated-image');
+            
+            // Burada bir API çağrısı yaparak görseli oluşturabilirsiniz.
+            // Örneğin, bir API endpoint'ine metni gönderip görseli alabilirsiniz.
+            
+            // API çağrısı yerine geçici bir görsel yükleyin
+            imageDisplay.src = 'https://via.placeholder.com/500?text=' + encodeURIComponent(textInput);
+            imageDisplay.style.display = 'block'; // Görseli göster
+        });
+    </script>
+</body>
+</html>
