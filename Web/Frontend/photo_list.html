@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fotoğraf Listesi</title>
+</head>
+<body>
+    <h2>Fotoğraf Listesi</h2>
+    {% for photo in photos %}
+        <div>
+            <img src="{{ photo.image.url }}" alt="{{ photo.name }}" style="max-width:200px;"/>
+            <p>{{ photo.name }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,2 +1,3 @@
-from transformers import AutoModelforCasualLM , AutoTokenizer 
 import torch
+
+print(torch.cuda.is_available())
