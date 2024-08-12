@@ -1,0 +1,45 @@
+<!-- templates/news_content.html -->
+<h2>Sports</h2>
+<ul>
+    {% for url in sport_news_urls %}
+        <li class="news-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+    {% empty %}
+        <li class="news-item">No sports news available</li>
+    {% endfor %}
+</ul>
+
+<h2>Politics</h2>
+<ul>
+    {% for url in politics_news_urls %}
+        <li class="news-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+    {% empty %}
+        <li class="news-item">No politics news available</li>
+    {% endfor %}
+</ul>
+
+<h2>Technology</h2>
+<ul>
+    {% for url in tech_news_urls %}
+        <li class="news-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+    {% empty %}
+        <li class="news-item">No technology news available</li>
+    {% endfor %}
+</ul>
+
+<h2>Health</h2>
+<ul>
+    {% for url in health_news_urls %}
+        <li class="news-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+    {% empty %}
+        <li class="news-item">No health news available</li>
+    {% endfor %}
+</ul>
+
+<h2>Education</h2>
+<ul>
+    {% for url in education_news_urls %}
+        <li class="news-item"><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+    {% empty %}
+        <li class="news-item">No education news available</li>
+    {% endfor %}
+</ul>

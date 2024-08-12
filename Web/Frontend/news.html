@@ -1,0 +1,106 @@
+{% load static %}
+
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/chatbot_style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #news-content {
+            margin-top: 20px;
+        }
+
+        .spinner-border {
+            display: none;
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.4em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../" class="logo">ChatGPTürk</a>
+            <ul class="nav-links">
+                <li><a href="medical-assistant-model">Medical Assistant</a></li>
+                <li><a href="text-to-image-model">Text-to-Image</a></li>
+                <li><a href="image-responser-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white;">Image Responser</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>News Categories</h1>
+
+        <!-- Buton -->
+        <button id="load-news" class="btn btn-primary">Load News</button>
+
+        <!-- Yükleme ifadesi -->
+        <div id="loading" class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+
+        <!-- Yüklenen haberlerin gösterileceği alan -->
+        <div id="news-content"></div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#load-news').click(function(){
+                // Yükleme simgesini göster
+                $('#loading').show();
+                $('#news-content').html(''); // Önceki haberleri temizle
+
+                $.ajax({
+                    url: '/news/',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#loading').hide(); // Yükleme simgesini gizle
+                        $('#news-content').html(data.html);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#loading').hide(); // Yükleme simgesini gizle
+                        $('#news-content').html('<p>An error occurred while loading the news.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

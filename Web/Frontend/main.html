@@ -1,25 +1,184 @@
+<!-- templates/news_template.html -->
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatGPTürk</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/chatbot_style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'css/background1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            color: #fff;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            color: black;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 5px 10px;
+        }
+
+        .navbar .nav-links a:hover {
+            color: black;
+            background-color: rgba(0, 0, 0, 0.529);
+            border-radius: 4px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 500px;
+            height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            background-color: rgba(207, 192, 192, 0.659);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-body {
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title,
+        .card-text {
+            margin: 10px 0;
+        }
+
+        .btn {
+            margin-bottom: 10px;
+            background-color: #3639c491;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            padding: 8px 16px;
+            width: 200px;
+            align-self: center;
+            transition: all 0.6s ease;
+        }
+
+        .btn:hover {
+            background-color: #16097d;
+            transform: scale(1.1);
+        }
+    </style>
 </head>
+
 <body>
-    <nav class="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a href="index.html" class="logo">ChatGPTürk</a>
+            <a href="" class="logo"
+                style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;color: rgb(255, 255, 255);">ChatGPTürk</a>
             <ul class="nav-links">
-                <li><a href="chatbot.html">Chatbot</a></li>
-                <li><a href="#">Text-to-Image</a></li>
-                <li><a href="#">Web Scraping</a></li>
+                <li><a href="models/medical-assistant-model">Medical Assistant</a></li>
+                <li><a href="models/text-to-image-model">Text-to-Image</a></li>
+                <li><a href="models/pdf-converter-model">PDF Converter</a></li>
+                <li><a href="models/image-responser-model">Image Responser</a></li>
+                <li><a href="models/news">News Classifier</a></li>
             </ul>
         </div>
     </nav>
-    <main class="container">
-        <h1>Welcome to My Web App</h1>
-        <p>Explore the functionalities from the navbar.</p>
+    <main>
+        <div class="container card-container">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Medical Assistant</h5>
+                    <p class="card-text">Medical Assistant, doğal dil işleme ve makine öğrenimi tekniklerini kullanarak
+                        kullanıcılarla etkileşimde bulunur. Bu, müşteri hizmetleri, bilgi toplama ve kullanıcı
+                        deneyimini iyileştirme gibi birçok alanda büyük faydalar sağlar.</p>
+                    <a href="models/medical-assistant-model" class="btn">Medical Assistant'ı Deneyin</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Text-to-Image</h5>
+                    <p class="card-text">Text-to-Image teknolojisi, yazdığınız metni görselleştirme imkanı sunar. Bu
+                        araç, yaratıcı projelerinizde ve görsel içerik üretiminde size yardımcı olur.</p>
+                    <a href="models/text-to-image-model" class="btn">Fotoğraf Oluşturun</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">PDF Converter</h5>
+                    <p class="card-text">Bu proje, PDF dosyalarını İngilizce'den Türkçe'ye çevirmeyi ve dosya içindeki görseller için açıklamalar oluşturmayı amaçlayan yenilikçi bir web uygulamasıdır. Kullanıcılar, PDF dosyalarını yükleyerek hem metin çevirisi hem de fotoğraf açıklamaları alabilirler. Bu uygulama, dil bariyerlerini aşmak ve görsel içerikleri anlamlı bir şekilde tanımlamak isteyen kullanıcılar için mükemmel bir çözümdür.</p>
+                    <a href="models/pdf-converter-model" class="btn">Hemen Deneyin</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Image Responser</h5>
+                    <p class="card-text">Görüntü bazlı soru-cevap modelimiz, fotoğraflar üzerinde sorular sorarak doğru ve anlamlı cevaplar almanızı sağlar. Bu model, görsel içeriği analiz eder ve verilen sorulara en uygun yanıtları üretir. Fotoğrafı yükledikten sonra, modelimiz görseldeki bilgileri değerlendirir ve size anında cevap sunar. Kullanıcı dostu arayüzümüz ve yüksek doğruluk oranımız sayesinde, görsel veriyle etkileşim daha kolay ve verimli hale gelir.</p>
+                    <a href="models/image-responser-model" class="btn">Hemen Deneyin</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">News Classifier</h5>
+                    <p class="card-text">Haber dünyasını daha iyi anlamak ve güncel bilgileri düzenli bir şekilde takip etmek için geliştirilmiş bu model, farklı haber kategorilerini analiz etmekte ve sınıflandırmakta oldukça etkili bir araçtır. Bu model, özellikle spor, politik, teknoloji, sağlık ve eğitim gibi ana haber kategorilerini otomatik olarak tanıyabilir ve bu haberleri doğru bir şekilde sınıflandırabilir.</p>
+                    <a href="models/news" class="btn">Haber Okuyun</a>
+                </div>
+            </div>
+        </div>
     </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

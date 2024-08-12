@@ -1,78 +1,107 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text-to-Image</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/TTO-style.css' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .text-to-image-container {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px;
-        }
-
-        .text-input {
-            flex: 1;
-            margin-right: 20px;
-        }
-
-        .text-input textarea {
-            width: 100%;
-            height: 200px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .image-display {
-            flex: 1;
-        }
-
-        .image-display img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            display: none; /* Başlangıçta gizle */
+        #button {
+            background-color: rgb(86, 169, 241);
+            color: black;
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="logo">MyApp</a>
+            <a href="../" class="logo" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">ChatGPTürk</a>
             <ul class="nav-links">
-                <li><a href="chatbot.html">Chatbot</a></li>
-                <li><a href="text-to-image.html">Text-to-Image</a></li>
-                <li><a href="#">Web Scraping</a></li>
+                <li><a href="medical-assistant-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Medical Assistant</a></li>
+                <li><a href="pdf-converter-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">PDF Converter</a></li>
+                <li><a href="image-responser-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white;">Image Responser</a></li>
+                <li><a href="image-responser-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white;">News Classifier</a></li>
             </ul>
         </div>
     </nav>
-    <main class="container">
-        <h1>Text-to-Image</h1>
-        <div class="text-to-image-container">
-            <div class="text-input">
-                <textarea id="text-input" placeholder="Enter text here..."></textarea>
-                <button id="generate-button">Generate Image</button>
-            </div>
-            <div class="image-display">
-                <img id="generated-image" src="" alt="Generated Image" />
+    <main class="container text-to-image">
+        <form id="generateForm">
+            <input type="text" name="prompt" id="prompt" placeholder="Enter your prompt here...">
+            <button class="mt-2" id="button" type="submit">Generate Image</button>
+        </form>
+        <div id="loader" class="d-none text-center mt-3">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
+        <div id="image-output">
+            <canvas id="generatedCanvas" width="800" height="400" style="border:1px solid #d3d3d3;">
+                <img id="generatedImage" class="img-fluid" alt="Generated Image" style="display: none;">
+            </canvas>
+        </div>
+        <!-- Yükleme spinner'ı -->
     </main>
+    <!-- Bootstrap JS ve Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.getElementById('generate-button').addEventListener('click', async function() {
-            const textInput = document.getElementById('text-input').value;
-            const imageDisplay = document.getElementById('generated-image');
-            
-            // Burada bir API çağrısı yaparak görseli oluşturabilirsiniz.
-            // Örneğin, bir API endpoint'ine metni gönderip görseli alabilirsiniz.
-            
-            // API çağrısı yerine geçici bir görsel yükleyin
-            imageDisplay.src = 'https://via.placeholder.com/500?text=' + encodeURIComponent(textInput);
-            imageDisplay.style.display = 'block'; // Görseli göster
+        document.getElementById('generateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitPrompt();
         });
+
+        function submitPrompt() {
+            const prompt = document.getElementById('prompt').value;
+            const canvas = document.getElementById('generatedCanvas');
+            const ctx = canvas.getContext('2d');
+            const loader = document.getElementById('loader');
+            
+            if (prompt.trim() === "") {
+                alert("Lütfen bir metin giriniz...");
+                return;
+            }
+
+            // Yükleme spinner'ını göster
+            loader.classList.remove('d-none');
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            fetch('{% url "generate_image_view" %}', {
+                method: 'POST',
+                body: JSON.stringify({ prompt: prompt }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(imageBlob => {
+                const imageUrl = URL.createObjectURL(imageBlob);
+                const image = document.getElementById('generatedImage');
+                image.src = imageUrl;
+                image.onload = () => {
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    // Yükleme spinner'ını gizle
+                    loader.classList.add('d-none');
+                };
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+                // Yükleme spinner'ını gizle
+                loader.classList.add('d-none');
+            });
+        }
     </script>
 </body>
 </html>

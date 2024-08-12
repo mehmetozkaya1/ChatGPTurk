@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPTürk</title>
+    <link rel="stylesheet" href="{% static 'css/chatbot_style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../" class="logo" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white;">ChatGPTürk</a>
+            <ul class="nav-links">
+                <li><a href="text-to-image-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white">Text-to-Image</a></li>
+                <li><a href="pdf-converter-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white;">PDF Converter</a></li>
+                <li><a href="image-responser-model" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white;">Image Responser</a></li>
+                <li><a href="news" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: white;">News Classifier</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container chatbot">
+        <div class="chatbox animated-slide">
+            <div class="chatbox-content">
+                <div class="response" id="response">
+                    <!-- Yapay zekanın yanıtları buraya gelecek -->
+                </div>
+            </div>  
+            <form id="chat-form" onsubmit="return createResponse(event)">
+                <input type="text" id="user-input" placeholder="Type a message...">
+                <button type="submit" style="background-color: #508D4E;">Send</button>
+            </form>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML += `<p class="bot-message"><strong>Medical Assistant:</strong> Hello! How can I help you?</p>`;
+        });
+
+        async function createResponse(e) {
+            e.preventDefault();
+            const userInput = document.getElementById('user-input').value;
+            const responseDiv = document.getElementById('response');
+            
+            responseDiv.innerHTML += `<p class="user-message"><strong>You:</strong> ${userInput}</p>`;
+            
+            const response = await fetch('/chat_response/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({user_input: userInput})
+            });
+            
+            const data = await response.json();
+            const botResponse = data.response;
+    
+            typeWriterEffect(responseDiv, botResponse);
+
+            document.getElementById('user-input').value = '';
+        }
+        
+        function typeWriterEffect(element, text, speed = 27) {
+            const botMessage = document.createElement('p');
+            botMessage.className = 'bot-message';
+            botMessage.innerHTML = '<strong>Bot:</strong> ';
+            element.appendChild(botMessage);
+
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    botMessage.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+    </script>
+</body>
+</html>

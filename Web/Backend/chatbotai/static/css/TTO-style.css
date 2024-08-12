@@ -1,0 +1,112 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('background1.jpg'); /* Arka plan resmi */
+    background-size: cover; /* Resmin boyutunu kapsaması */
+    background-position: center; /* Resmin merkezden konumlanması */
+    background-repeat: no-repeat; /* Resmin tekrarlanmaması */
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    color: #fff;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 5px 10px;
+}
+
+.navbar .nav-links a:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.529);
+    border-radius: 4px;
+}
+
+.text-to-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 100px;
+    opacity: 0; /* Başlangıçta görünmez */
+    transform: translateY(50px); /* Başlangıçta aşağıda */
+    animation: fadeInUp 1s forwards; /* Animasiyon */
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+form input[type="text"] {
+    width: 500px;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.305);
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #508d4ed2;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.6s ease;
+}
+
+form button:hover {
+    background-color: #555;
+    transform: scale(1.1);
+}
+
+#image-output {
+    margin-top: 20px;
+}

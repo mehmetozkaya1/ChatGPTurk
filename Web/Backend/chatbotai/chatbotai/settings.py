@@ -28,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# CORS ayarları
+CORS_ORIGIN_ALLOW_ALL = True  # Bu ayar geliştirirken kullanışlı olabilir ama prodüksiyonda daha sıkı ayarlamalar yapmalısınız
+
+# Django CSRF middleware'i ile ilgili ayarlar
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+
+
 
 # Application definition
 
